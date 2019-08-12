@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Conversation</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account_sign_up_here">Don\'t have an account? Sign up here.</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account_login_here">Already have an account? Login here</string>
+</resources>

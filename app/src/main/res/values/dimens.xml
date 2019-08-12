@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dimens_text_48sp">48sp</dimen>
+    <dimen name="dimens_12dp">12dp</dimen>
+    <dimen name="dimen_48dp">48dp</dimen>
+    <dimen name="dimen_16dp">16dp</dimen>
+    <dimen name="dimen_192dp">192dp</dimen>
+    <dimen name="dimen_text_18sp">18sp</dimen>
+    <dimen name="dimen_text_16sp">16sp</dimen>
+    <dimen name="dimen_8dp">8dp</dimen>
+</resources>

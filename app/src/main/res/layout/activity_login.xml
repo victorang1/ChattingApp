@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorOrange">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.4"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="1320dp"
+                android:layout_height="132dp"
+                android:src="@drawable/ic_chat"
+                android:layout_marginBottom="@dimen/dimens_12dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/dimen_text_16sp"
+                android:text="Chat with everyone, everywhere."
+                android:textAlignment="center"
+                android:textColor="@color/colorWhite"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.3">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="@dimen/dimen_48dp"
+                android:layout_marginEnd="@dimen/dimen_48dp"
+                android:gravity="center">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/LoginTextInputLayoutStyle">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:inputType="text"
+                            android:textColor="@color/colorWhite"
+                            android:hint="Username"
+                            android:padding="@dimen/dimen_16dp"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/LoginTextInputLayoutStyle">
+
+                        <android.support.design.widget.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:inputType="textPassword"
+                            android:textColor="@color/colorWhite"
+                            android:hint="Password"
+                            android:padding="@dimen/dimen_16dp"/>
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:text="@string/login"
+                        android:textAllCaps="false"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/dimen_text_18sp"
+                        android:layout_margin="@dimen/dimens_12dp" />
+
+                    <Button
+                        android:id="@+id/btnGotoRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:textAllCaps="false"
+                        android:text="@string/don_t_have_an_account_sign_up_here"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="@dimen/dimen_text_16sp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.6">
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>
