@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.chattingapp.model.User">
+        </variable>
+    </data>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +27,7 @@
                 android:layout_width="1320dp"
                 android:layout_height="132dp"
                 android:src="@drawable/ic_chat"
-                android:layout_marginBottom="@dimen/dimens_12dp"/>
+                android:layout_marginBottom="@dimen/dimen_12dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -54,13 +61,15 @@
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/LoginTextInputLayoutStyle">
+                        style="@style/LoginTextInputLayoutStyle"
+                        android:layout_marginBottom="@dimen/dimen_8dp">
 
                         <android.support.design.widget.TextInputEditText
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
                             android:inputType="text"
+                            android:text="@={viewModel.username}"
                             android:textColor="@color/colorWhite"
                             android:hint="Username"
                             android:padding="@dimen/dimen_16dp"/>
@@ -77,6 +86,7 @@
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
                             android:inputType="textPassword"
+                            android:text="@={viewModel.password}"
                             android:textColor="@color/colorWhite"
                             android:hint="Password"
                             android:padding="@dimen/dimen_16dp"/>
@@ -84,6 +94,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <Button
+                        android:id="@+id/btnLogin"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/Base.Widget.AppCompat.Button.Borderless"
@@ -91,7 +102,7 @@
                         android:textAllCaps="false"
                         android:textColor="@color/colorWhite"
                         android:textSize="@dimen/dimen_text_18sp"
-                        android:layout_margin="@dimen/dimens_12dp" />
+                        android:layout_margin="@dimen/dimen_12dp" />
 
                     <Button
                         android:id="@+id/btnGotoRegister"

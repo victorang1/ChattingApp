@@ -13,5 +13,6 @@
     <color name="colorWhite">#FFFFFFFF</color>
     <color name="colorOrange">#FFFF9800</color>
     <color name="colorHintGrey">#888888</color>
+    <color name="lightGrey">#D6D4D4</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
 </resources>

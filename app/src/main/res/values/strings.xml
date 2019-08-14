@@ -7,4 +7,14 @@
     <string name="username">Username</string>
     <string name="register">Register</string>
     <string name="already_have_an_account_login_here">Already have an account? Login here</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_friends">Friends</string>
+    <string name="title_chats">Chats</string>
+    <string name="title_profile">Profile</string>
+    <string name="text_add_friend">Add Friend</string>
+    <string name="text_search_by_username">Search by Username</string>
+    <string name="no_user_found">No User Found</string>
+    <string name="you_already_friend_with">You already friend with\n%s</string>
+    <string name="text_chat">Chat</string>
+    <string name="text_delete">Delete</string>
 </resources>

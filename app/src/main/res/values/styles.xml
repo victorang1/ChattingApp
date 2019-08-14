@@ -7,12 +7,29 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorHint">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/colorOrange</item>
+        <item name="colorControlNormal">@color/colorOrange</item>
     </style>
 
     <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlineBox.Dense">
         <item name="boxStrokeColor">#fff</item>
         <item name="boxStrokeWidth">2dp</item>
-        <item name="hintTextAppearance">@color/colorWhite</item>
+        <item name="hintTextAppearance">@style/hintTextSize</item>
+    </style>
+    
+    <style name="hintTextSize">
+        <item name="android:textSize">@dimen/dimen_text_12sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
+    <style name="AddFriendTextInputLayoutStyle">
+        <item name="hintTextAppearance">@style/addFriendHintTextSize</item>
+    </style>
+
+    <style name="addFriendHintTextSize">
+        <item name="android:textColorHint">@color/colorBlack</item>
+        <item name="android:textSize">@dimen/dimen_text_12sp</item>
+        <item name="android:textColor">@color/colorOrange</item>
     </style>
 
 </resources>
