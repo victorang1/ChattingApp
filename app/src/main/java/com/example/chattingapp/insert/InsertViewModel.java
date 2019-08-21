@@ -82,9 +82,9 @@ public class InsertViewModel extends ViewModel {
 
     public Boolean insertFriendToDatabase(User data) {
         String key = UserRepository.reference.child("user").push().getKey();
-        Friend friend = new Friend(data.getName(), data.getUsername(), data.getUser_key(), new ArrayList<Chat>());
-        Friend user = new Friend(SESSION.username,  SESSION.username, SESSION.user_key, new ArrayList<Chat>());
-        if(mRepository.insertFriendToFirebase(friend, user, key)) {
+        Friend friend = new Friend(data.getName(), data.getUsername(), data.getUser_key(), key, new ArrayList<Chat>());
+        Friend user = new Friend(SESSION.username,  SESSION.username, SESSION.user_key, key, new ArrayList<Chat>());
+        if(mRepository.insertFriendToFirebase(friend, user)) {
             return true;
         }
         return false;

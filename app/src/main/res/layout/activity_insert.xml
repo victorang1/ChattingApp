@@ -210,7 +210,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@{@string/you_already_friend_with(viewModel.username)}"
+                            android:text="@{@string/you_already_friend_with(viewModel.name)}"
                             android:textColor="@color/colorRed"
                             android:textAlignment="center"
                             android:textStyle="italic"

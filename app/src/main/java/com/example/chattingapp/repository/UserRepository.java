@@ -43,10 +43,10 @@ public class UserRepository {
         return true;
     }
 
-    public boolean insertFriendToFirebase(Friend friend, Friend user, String key) {
+    public boolean insertFriendToFirebase(Friend friend, Friend user) {
         try {
-            reference.child("user").child(SESSION.user_key).child("list_friends").child(key).setValue(friend);
-            reference.child("user").child(friend.getUser_key()).child("list_friends").child(key).setValue(user);
+            reference.child("user").child(SESSION.user_key).child("list_friends").child(friend.getFriend_key()).setValue(friend);
+            reference.child("user").child(friend.getUser_key()).child("list_friends").child(friend.getFriend_key()).setValue(user);
         } catch (Exception ex) {
             return false;
         }

@@ -7,17 +7,49 @@ import com.example.chattingapp.BR;
 
 public class Chat extends BaseObservable {
 
+    private String from;
     private String to;
     private String message;
     private String time;
+    private String date;
 
     public Chat() {
+
     }
 
-    public Chat(String to, String message, String time) {
+    public Chat(String from, String to) {
+        this.from = from;
+        this.to = to;
+    }
+
+    public Chat(String from, String to, String message, String time, String date) {
+        this.from = from;
         this.to = to;
         this.message = message;
         this.time = time;
+        this.date = date;
+    }
+
+    @Bindable
+    public String getFrom() {
+        return from;
+    }
+
+    public Chat setFrom(String from) {
+        this.from = from;
+        notifyPropertyChanged(BR.from);
+        return this;
+    }
+
+    @Bindable
+    public String getTo() {
+        return to;
+    }
+
+    public Chat setTo(String to) {
+        this.to = to;
+        notifyPropertyChanged(BR.to);
+        return this;
     }
 
     @Bindable
@@ -43,13 +75,13 @@ public class Chat extends BaseObservable {
     }
 
     @Bindable
-    public String getTo() {
-        return to;
+    public String getDate() {
+        return date;
     }
 
-    public Chat setTo(String to) {
-        this.to = to;
-        notifyPropertyChanged(BR.to);
+    public Chat setDate(String date) {
+        this.date = date;
+        notifyPropertyChanged(BR.date);
         return this;
     }
 }

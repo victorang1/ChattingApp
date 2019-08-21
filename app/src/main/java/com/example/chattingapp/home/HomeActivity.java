@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +25,9 @@ import com.example.chattingapp.chat.ChatActivity;
 import com.example.chattingapp.databinding.ActivityHomeBinding;
 import com.example.chattingapp.databinding.HomeCustomFriendsDialogBinding;
 import com.example.chattingapp.insert.InsertActivity;
+import com.example.chattingapp.model.Chat;
 import com.example.chattingapp.model.Friend;
+import com.example.chattingapp.model.SESSION;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +35,11 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityHomeBinding mBinding;
-    private HomeCustomFriendsDialogBinding dialogBinding;
     private HomeViewModel mViewModel;
     private HomeFriendsAdapter friendsAdapter;
-    private List<Friend> list = new ArrayList<>();
+    private HomeChatsAdapter chatsAdapter;
+    private List<Friend> friendList = new ArrayList<>();
+    private List<Friend> chatFriendList = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -73,8 +77,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mViewModel.getFriendList().observe(this, new Observer<List<Friend>>() {
             @Override
             public void onChanged(@Nullable List<Friend> friends) {
-                list.clear();
-                list.addAll(friends);
+                friendList.clear();
+                friendList.addAll(friends);
                 friendsAdapter.notifyDataSetChanged();
             }
         });
@@ -88,7 +92,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 showFriendDialog(friend);
             }
         };
-        friendsAdapter = new HomeFriendsAdapter(list, listener);
+        friendsAdapter = new HomeFriendsAdapter(friendList, listener);
         mBinding.recyclerViewFriends.setLayoutManager(new LinearLayoutManager(this));
         mBinding.recyclerViewFriends.setHasFixedSize(true);
         mBinding.recyclerViewFriends.setAdapter(friendsAdapter);
@@ -104,8 +108,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         dialogBinding.llChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, ChatActivity.class));
-                finish();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("value", friend);
+                gotoChatActivity(bundle);
             }
         });
         dialogBinding.llDelete.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +134,23 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setupChatsTabView() {
         mBinding.tvMenuToolbar.setText(R.string.title_chats);
+        mViewModel.loadChatList();
+        mViewModel.getChatList().observe(this, new Observer<List<Friend>>() {
+            @Override
+            public void onChanged(@Nullable List<Friend> friends) {
+                chatFriendList.clear();
+                chatFriendList.addAll(friends);
+                chatsAdapter.notifyDataSetChanged();
+            }
+        });
+        initChatsFriendAdapter();
+    }
+
+    private void initChatsFriendAdapter() {
+        chatsAdapter = new HomeChatsAdapter(chatFriendList);
+        mBinding.recyclerViewFriends.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.recyclerViewFriends.setHasFixedSize(true);
+        mBinding.recyclerViewFriends.setAdapter(chatsAdapter);
     }
 
     private void setupProfileTabView() {
@@ -192,5 +214,12 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private void gotoInsertActivity() {
         finish();
         startActivity(new Intent(this, InsertActivity.class));
+    }
+
+    private void gotoChatActivity(Bundle value) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtras(value);
+        startActivity(intent);
+        finish();
     }
 }
