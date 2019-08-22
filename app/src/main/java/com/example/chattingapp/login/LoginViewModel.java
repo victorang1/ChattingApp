@@ -37,7 +37,6 @@ public class LoginViewModel extends ViewModel {
                 for(DataSnapshot item : dataSnapshot.getChildren()) {
                     User data = item.getValue(User.class);
                     if(user.getPassword().equals(data.getPassword())) {
-                        SESSION.name = user.getName();
                         SESSION.username = user.getUsername();
                         SESSION.user_key = item.getKey();
                         result.postValue(true);

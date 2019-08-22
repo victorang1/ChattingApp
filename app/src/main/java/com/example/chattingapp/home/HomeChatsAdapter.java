@@ -16,10 +16,12 @@ import java.util.List;
 
 public class HomeChatsAdapter extends RecyclerView.Adapter<HomeChatsAdapter.MyViewHolder> {
 
-    private List<Friend> chatList;
+    private List<Chat> chatList;
+    private OnItemClickListener listener;
 
-    public HomeChatsAdapter(List<Friend> chatList) {
+    public HomeChatsAdapter(List<Chat> chatList, OnItemClickListener listener) {
         this.chatList = chatList;
+        this.listener = listener;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -42,13 +44,26 @@ public class HomeChatsAdapter extends RecyclerView.Adapter<HomeChatsAdapter.MyVi
 
     @Override
     public void onBindViewHolder(@NonNull HomeChatsAdapter.MyViewHolder holder, int position) {
-        Friend friend = chatList.get(position);
-        Chat chat = friend.getListChat().get(friend.getListChat().size()-1);
+        final Chat chat = chatList.get(position);
+        String marker = chat.getTime().substring(chat.getTime().length()-2);
+        String time = chat.getTime().substring(0, 5);
+        chat.setTime(time + " " + marker);
         holder.itemBinding.setViewModel(chat);
+        holder.itemBinding.setDate(chat);
+        holder.itemBinding.cvChats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onClick(chat);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return chatList.size();
+    }
+
+    public interface OnItemClickListener {
+        void onClick(Chat chat);
     }
 }

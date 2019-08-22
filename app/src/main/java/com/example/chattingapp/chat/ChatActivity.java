@@ -83,8 +83,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         else if(view == mBinding.btnBack) {
-            startActivity(new Intent(ChatActivity.this, HomeActivity.class));
-            finish();
+            gotoHomeActivity();
         }
     }
 
@@ -95,5 +94,16 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public void onBackPressed() {
+        gotoHomeActivity();
+    }
+
+    private void gotoHomeActivity() {
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

@@ -2,7 +2,6 @@ package com.example.chattingapp.login;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +18,7 @@ import android.widget.Toast;
 import com.example.chattingapp.R;
 import com.example.chattingapp.databinding.ActivityLoginBinding;
 import com.example.chattingapp.home.HomeActivity;
+import com.example.chattingapp.model.SESSION;
 import com.example.chattingapp.model.User;
 import com.example.chattingapp.register.RegisterActivity;
 
@@ -42,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(this, RegisterActivity.class));
         }
         else if (view == mBinding.btnLogin) {
-            User user = mBinding.getViewModel();
+            final User user = mBinding.getViewModel();
             mViewModel.getUser(user).observe(this, new Observer<Boolean>() {
                 @Override
                 public void onChanged(@Nullable Boolean aBoolean) {
@@ -58,8 +58,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void gotoHomeActivity() {
-        finish();
         startActivity(new Intent(this, HomeActivity.class));
+        finish();
     }
 
     private void initListener() {

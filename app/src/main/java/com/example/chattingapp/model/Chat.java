@@ -2,8 +2,14 @@ package com.example.chattingapp.model;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
+import android.widget.TextView;
 
 import com.example.chattingapp.BR;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class Chat extends BaseObservable {
 
@@ -83,5 +89,15 @@ public class Chat extends BaseObservable {
         this.date = date;
         notifyPropertyChanged(BR.date);
         return this;
+    }
+
+    @BindingAdapter("last_chat_time")
+    public static void loadDate(TextView view, Chat chat) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yy");
+        String currDate = df.format(Calendar.getInstance().getTime());
+        if(currDate.equals(chat.getDate())) {
+            view.setText(chat.getTime());
+        }
+        else view.setText(chat.getDate());
     }
 }

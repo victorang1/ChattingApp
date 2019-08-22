@@ -27,9 +27,9 @@ import com.example.chattingapp.databinding.HomeCustomFriendsDialogBinding;
 import com.example.chattingapp.insert.InsertActivity;
 import com.example.chattingapp.model.Chat;
 import com.example.chattingapp.model.Friend;
-import com.example.chattingapp.model.SESSION;
-
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
@@ -39,13 +39,14 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     private HomeFriendsAdapter friendsAdapter;
     private HomeChatsAdapter chatsAdapter;
     private List<Friend> friendList = new ArrayList<>();
-    private List<Friend> chatFriendList = new ArrayList<>();
+    private List<Chat> chatFriendList = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            setLoading(true);
             setVisibility(item.getItemId());
             switch (item.getItemId()) {
                 case R.id.navigation_friends:
@@ -77,6 +78,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mViewModel.getFriendList().observe(this, new Observer<List<Friend>>() {
             @Override
             public void onChanged(@Nullable List<Friend> friends) {
+                setLoading(false);
                 friendList.clear();
                 friendList.addAll(friends);
                 friendsAdapter.notifyDataSetChanged();
@@ -134,12 +136,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setupChatsTabView() {
         mBinding.tvMenuToolbar.setText(R.string.title_chats);
-        mViewModel.loadChatList();
-        mViewModel.getChatList().observe(this, new Observer<List<Friend>>() {
+        mViewModel.getChatList().observe(this, new Observer<List<Chat>>() {
             @Override
-            public void onChanged(@Nullable List<Friend> friends) {
+            public void onChanged(@Nullable List<Chat> chats) {
+                setLoading(false);
                 chatFriendList.clear();
-                chatFriendList.addAll(friends);
+                chatFriendList.addAll(chats);
+                sortList();
                 chatsAdapter.notifyDataSetChanged();
             }
         });
@@ -147,14 +150,30 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initChatsFriendAdapter() {
-        chatsAdapter = new HomeChatsAdapter(chatFriendList);
-        mBinding.recyclerViewFriends.setLayoutManager(new LinearLayoutManager(this));
-        mBinding.recyclerViewFriends.setHasFixedSize(true);
-        mBinding.recyclerViewFriends.setAdapter(chatsAdapter);
+        HomeChatsAdapter.OnItemClickListener listener = new HomeChatsAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(Chat chat) {
+                Log.d("<RESULT>", "onClick: ");
+                mViewModel.getFriend(chat).observe(HomeActivity.this, new Observer<Friend>() {
+                    @Override
+                    public void onChanged(@Nullable Friend friend) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("value", friend);
+                        gotoChatActivity(bundle);
+                    }
+                });
+            }
+        };
+        Log.d("<RESULT>", "initChatsFriendAdapter: " + chatFriendList.size());
+        chatsAdapter = new HomeChatsAdapter(chatFriendList, listener);
+        mBinding.recyclerViewChats.setLayoutManager(new LinearLayoutManager(this));
+        mBinding.recyclerViewChats.setHasFixedSize(true);
+        mBinding.recyclerViewChats.setAdapter(chatsAdapter);
     }
 
     private void setupProfileTabView() {
         mBinding.tvMenuToolbar.setText(R.string.title_profile);
+        setLoading(false);
     }
 
     private void setVisibility(int resId) {
@@ -212,8 +231,8 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void gotoInsertActivity() {
-        finish();
         startActivity(new Intent(this, InsertActivity.class));
+        finish();
     }
 
     private void gotoChatActivity(Bundle value) {
@@ -221,5 +240,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtras(value);
         startActivity(intent);
         finish();
+    }
+
+    private void setLoading(boolean isLoading) {
+        if(isLoading) {
+            mBinding.flLoading.setVisibility(View.VISIBLE);
+        }
+        else mBinding.flLoading.setVisibility(View.GONE);
+    }
+
+    private void sortList() {
+        Collections.sort(chatFriendList, new Comparator<Chat>() {
+            @Override
+            public int compare(Chat c1, Chat c2) {
+                return c2.getTime().compareTo(c1.getTime());
+            }
+        });
     }
 }

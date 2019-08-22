@@ -68,6 +68,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Chat chat = chatList.get(position);
+        String marker = chat.getTime().substring(chat.getTime().length()-2);
+        String time = chat.getTime().substring(0, 5);
+        chat.setTime(time + " " + marker);
         switch (holder.getItemViewType()) {
             case TYPE_CHAT_LEFT:
                 holder.leftItemBinding.setViewModel(chat);

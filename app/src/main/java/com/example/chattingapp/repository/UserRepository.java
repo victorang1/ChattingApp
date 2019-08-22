@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.chattingapp.common.DatabaseManager;
+import com.example.chattingapp.model.Chat;
 import com.example.chattingapp.model.Friend;
 import com.example.chattingapp.model.SESSION;
 import com.example.chattingapp.model.User;
@@ -129,4 +130,20 @@ public class UserRepository {
         return result;
     }
 
+    public MutableLiveData<Friend> getFriendFromDatabase(Chat chat, final DatabaseManager listener) {
+        final MutableLiveData<Friend> result = new MutableLiveData<>();
+        reference.child("user").child(SESSION.user_key).child("list_friends")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        listener.onSuccess(dataSnapshot);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        listener.onFailure(databaseError);
+                    }
+                });
+        return result;
+    }
 }

@@ -27,7 +27,7 @@ public class ChatViewModel extends ViewModel {
 
     public ChatViewModel() {
         mRepository = ChatRepository.getInstance();
-        tf = new SimpleDateFormat("h:mm");
+        tf = new SimpleDateFormat("h:mm:ss:SS a");
         df = new SimpleDateFormat("dd/MM/yy");
     }
 

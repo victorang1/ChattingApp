@@ -41,11 +41,13 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         if (view == mBinding.btnSearch) {
+            setLoading(true);
             mBinding.llContainer.setVisibility(View.VISIBLE);
             User user = mBinding.getViewModel();
             mViewModel.getUser(user).observe(this, new Observer<User>() {
                 @Override
                 public void onChanged(@Nullable User user) {
+                    setLoading(false);
                     manageEventId(user);
                 }
             });
@@ -106,5 +108,12 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
             imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    private void setLoading(boolean isLoading) {
+        if(isLoading) {
+            mBinding.flLoading.setVisibility(View.VISIBLE);
+        }
+        else mBinding.flLoading.setVisibility(View.GONE);
     }
 }

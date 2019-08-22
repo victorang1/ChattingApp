@@ -104,12 +104,25 @@
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/fl_loading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="@dimen/dimen_72dp"
+                android:layout_height="@dimen/dimen_72dp"
+                android:layout_gravity="center"/>
+
+        </FrameLayout>
+
         <LinearLayout
             android:id="@+id/ll_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <RelativeLayout
                 android:id="@+id/rl_noUser"

@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ChatRepository {
@@ -63,6 +64,24 @@ public class ChatRepository {
 
     public MutableLiveData<List<Chat>> loadListChatFromDatabase(Friend friend, final DatabaseManager listener) {
         MutableLiveData<List<Chat>> result = new MutableLiveData<>();
+        reference.child("user").child(SESSION.user_key).child("list_friends")
+                .child(friend.getFriend_key()).child("list_chats")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        listener.onSuccess(dataSnapshot);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        listener.onFailure(databaseError);
+                    }
+                });
+        return result;
+    }
+
+    public MutableLiveData<Chat> loadSingleLastChatFromDatabase(Friend friend, final DatabaseManager listener) {
+        MutableLiveData<Chat> result = new MutableLiveData<>();
         reference.child("user").child(SESSION.user_key).child("list_friends")
                 .child(friend.getFriend_key()).child("list_chats")
                 .addValueEventListener(new ValueEventListener() {
