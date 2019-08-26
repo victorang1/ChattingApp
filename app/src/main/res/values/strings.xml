@@ -16,6 +16,6 @@
     <string name="no_user_found">No User Found</string>
     <string name="you_already_friend_with">You already friend with\n%s</string>
     <string name="text_chat">Chat</string>
-    <string name="text_delete">Delete</string>
+    <string name="text_unfriend">Unfriend</string>
     <string name="text_send">Send</string>
 </resources>

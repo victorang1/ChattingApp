@@ -76,6 +76,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if(view == mBinding.btnSend) {
             Chat chat = mBinding.getViewModel();
+            chat.setMessage(chat.getMessage().trim());
             if(chat.getMessage() != null && !chat.getMessage().equals("")) {
                 if(mViewModel.insertChat(chat, mViewModel.getResult(getIntent().getExtras()))) {
                     mBinding.etChatField.setText("");

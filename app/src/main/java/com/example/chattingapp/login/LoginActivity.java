@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.example.chattingapp.R;
+import com.example.chattingapp.common.SessionManager;
 import com.example.chattingapp.databinding.ActivityLoginBinding;
 import com.example.chattingapp.home.HomeActivity;
 import com.example.chattingapp.model.SESSION;
@@ -26,12 +27,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private ActivityLoginBinding mBinding;
     private LoginViewModel mViewModel;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
         mViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        session = new SessionManager(getApplicationContext());
         initListener();
     }
 
@@ -47,6 +50,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onChanged(@Nullable Boolean aBoolean) {
                     if(aBoolean) {
+                        session.createLoginSession(SESSION.username, SESSION.user_key);
                         Toast.makeText(LoginActivity.this, "Login success", Toast.LENGTH_SHORT).show();
                         gotoHomeActivity();
                     } else {

@@ -114,32 +114,43 @@ public class HomeViewModel extends ViewModel {
         if (SESSION.friendList.isEmpty()) {
             result.postValue(new ArrayList<Chat>());
         }
-        for(final Friend friend : SESSION.friendList){
-            chatRepository.loadSingleLastChatFromDatabase(friend, new DatabaseManager() {
-                @Override
-                public void onSuccess(DataSnapshot dataSnapshot) {
-                    List<Chat> temp = new ArrayList<>();
-                    for(DataSnapshot item : dataSnapshot.getChildren()) {
-                        Chat chat = item.getValue(Chat.class);
-                        temp.add(chat);
-                    }
-                    if(temp.size() >= 1) {
-                        Chat last = temp.get(temp.size()-1);
-                        if(SESSION.username.equals(last.getTo())) {
-                            String from = last.getFrom();
-                            last.setFrom(last.getTo());
-                            last.setTo(from);
+        else {
+            for(final Friend friend : SESSION.friendList){
+                chatRepository.loadSingleLastChatFromDatabase(friend, new DatabaseManager() {
+                    @Override
+                    public void onSuccess(DataSnapshot dataSnapshot) {
+                        List<Chat> temp = new ArrayList<>();
+                        for(DataSnapshot item : dataSnapshot.getChildren()) {
+                            Chat chat = item.getValue(Chat.class);
+                            temp.add(chat);
                         }
-                        list.add(last);
+                        if(temp.size() >= 1) {
+                            Chat last = temp.get(temp.size()-1);
+                            if(SESSION.username.equals(last.getTo())) {
+                                String from = last.getFrom();
+                                last.setFrom(last.getTo());
+                                last.setTo(from);
+                            }
+                            int exist = 0;
+                            for(Chat data : list) {
+                                if(data.getTo().equals(last.getTo())) {
+                                    list.set(list.indexOf(data), last);
+                                    exist = 1;
+                                }
+                            }
+                            if(exist == 0) {
+                                list.add(last);
+                            }
+                        }
+                        result.postValue(list);
                     }
-                    result.postValue(list);
-                }
 
-                @Override
-                public void onFailure(DatabaseError databaseError) {
-                    result.postValue(null);
-                }
-            });
+                    @Override
+                    public void onFailure(DatabaseError databaseError) {
+                        result.postValue(null);
+                    }
+                });
+            }
         }
         return result;
     }

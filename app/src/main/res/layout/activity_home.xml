@@ -99,7 +99,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="gone"
+                    android:gravity="center">
+
+                    <Button
+                        android:id="@+id/btnLogout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/Base.Widget.AppCompat.Button.Borderless"
+                        android:text="Logout"
+                        android:textSize="@dimen/dimen_text_24sp"/>
 
                 </LinearLayout>
 

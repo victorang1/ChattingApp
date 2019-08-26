@@ -12,21 +12,23 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.chattingapp.R;
 import com.example.chattingapp.chat.ChatActivity;
+import com.example.chattingapp.common.SessionManager;
 import com.example.chattingapp.databinding.ActivityHomeBinding;
 import com.example.chattingapp.databinding.HomeCustomFriendsDialogBinding;
 import com.example.chattingapp.insert.InsertActivity;
 import com.example.chattingapp.model.Chat;
 import com.example.chattingapp.model.Friend;
+import com.example.chattingapp.model.SESSION;
+import com.example.chattingapp.splashscreen.SplashScreenActivity;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,6 +37,7 @@ import java.util.List;
 public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ActivityHomeBinding mBinding;
+    private SessionManager session;
     private HomeViewModel mViewModel;
     private HomeFriendsAdapter friendsAdapter;
     private HomeChatsAdapter chatsAdapter;
@@ -68,7 +71,9 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
         mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+        session = new SessionManager(getApplicationContext());
         mBinding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mBinding.navigation.setSelectedItemId(R.id.navigation_friends);
         initListener();
         setupFriendsTabView();
     }
@@ -122,7 +127,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onChanged(@Nullable Boolean aBoolean) {
                         if (aBoolean) {
-                            Toast.makeText(HomeActivity.this, "Delete success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HomeActivity.this, "Unfriend success", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         } else {
                             Toast.makeText(HomeActivity.this, "Failed to delete friend", Toast.LENGTH_SHORT).show();
@@ -153,7 +158,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         HomeChatsAdapter.OnItemClickListener listener = new HomeChatsAdapter.OnItemClickListener() {
             @Override
             public void onClick(Chat chat) {
-                Log.d("<RESULT>", "onClick: ");
                 mViewModel.getFriend(chat).observe(HomeActivity.this, new Observer<Friend>() {
                     @Override
                     public void onChanged(@Nullable Friend friend) {
@@ -164,7 +168,6 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
                 });
             }
         };
-        Log.d("<RESULT>", "initChatsFriendAdapter: " + chatFriendList.size());
         chatsAdapter = new HomeChatsAdapter(chatFriendList, listener);
         mBinding.recyclerViewChats.setLayoutManager(new LinearLayoutManager(this));
         mBinding.recyclerViewChats.setHasFixedSize(true);
@@ -178,16 +181,19 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void setVisibility(int resId) {
         if(resId == R.id.navigation_friends) {
+            mBinding.fab.setVisibility(View.VISIBLE);
             mBinding.llFriendsContainer.setVisibility(View.VISIBLE);
             mBinding.llChatsContainer.setVisibility(View.GONE);
             mBinding.llProfileContainer.setVisibility(View.GONE);
         }
         else if(resId == R.id.navigation_chats) {
+            mBinding.fab.setVisibility(View.GONE);
             mBinding.llFriendsContainer.setVisibility(View.GONE);
             mBinding.llChatsContainer.setVisibility(View.VISIBLE);
             mBinding.llProfileContainer.setVisibility(View.GONE);
         }
-        else if(resId == R.id.ll_profile_container) {
+        else if(resId == R.id.navigation_profile) {
+            mBinding.fab.setVisibility(View.GONE);
             mBinding.llFriendsContainer.setVisibility(View.GONE);
             mBinding.llChatsContainer.setVisibility(View.GONE);
             mBinding.llProfileContainer.setVisibility(View.VISIBLE);
@@ -221,6 +227,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
 
     private void initListener() {
         mBinding.fab.setOnClickListener(this);
+        mBinding.btnLogout.setOnClickListener(this);
     }
 
     @Override
@@ -228,6 +235,21 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         if (view == mBinding.fab) {
             gotoInsertActivity();
         }
+        else if(view == mBinding.btnLogout) {
+            userLogout();
+        }
+    }
+
+    private void userLogout() {
+        SESSION.clear();
+        if(session.logoutUser()) {
+            gotoSplashScreenActivity();
+        }
+    }
+
+    private void gotoSplashScreenActivity() {
+        startActivity(new Intent(this, SplashScreenActivity.class));
+        finish();
     }
 
     private void gotoInsertActivity() {
