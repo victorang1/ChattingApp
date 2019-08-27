@@ -6,6 +6,8 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -73,9 +75,20 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         mViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         session = new SessionManager(getApplicationContext());
         mBinding.navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        mBinding.navigation.setSelectedItemId(R.id.navigation_friends);
         initListener();
         setupFriendsTabView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(getIntent().getExtras() != null) {
+            mBinding.navigation.setSelectedItemId(R.id.navigation_chats);
+            setupChatsTabView();
+        } else {
+            mBinding.navigation.setSelectedItemId(R.id.navigation_friends);
+            setupFriendsTabView();
+        }
     }
 
     private void setupFriendsTabView() {
@@ -112,6 +125,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         dialogBinding.setViewModel(friend);
         builder.setView(dialogBinding.getRoot());
         final AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogBinding.llChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

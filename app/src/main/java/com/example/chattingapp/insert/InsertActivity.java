@@ -116,4 +116,14 @@ public class InsertActivity extends AppCompatActivity implements View.OnClickLis
         }
         else mBinding.flLoading.setVisibility(View.GONE);
     }
+
+    private void gotoHomeActivity() {
+        startActivity(new Intent(this, HomeActivity.class));
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        gotoHomeActivity();
+    }
 }

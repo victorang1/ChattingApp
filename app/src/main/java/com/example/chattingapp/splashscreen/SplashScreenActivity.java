@@ -33,11 +33,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                Intent intent;
                 if(checkSession()) {
-                    startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                    intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
                 } else {
-                    startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                    intent =  new Intent(SplashScreenActivity.this, LoginActivity.class);
                 }
+                startActivity(intent);
                 finish();
             }
         },2000);
@@ -50,10 +52,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             SESSION.user_key = user.get(SessionManager.KEY_USERKEY);
             return true;
         }
-        else {
-            startActivity(new Intent(this, LoginActivity.class));
-            finish();
-            return false;
-        }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

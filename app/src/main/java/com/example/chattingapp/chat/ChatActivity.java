@@ -104,6 +104,9 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private void gotoHomeActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("type", "chat");
+        intent.putExtras(bundle);
         startActivity(intent);
         finish();
     }

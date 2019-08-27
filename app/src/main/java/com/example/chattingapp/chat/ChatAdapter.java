@@ -69,7 +69,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         Chat chat = chatList.get(position);
         String marker = chat.getTime().substring(chat.getTime().length()-2);
-        String time = chat.getTime().substring(0, 5);
+        String time = "";
+        if(chat.getTime().indexOf(":") == 2) {
+            time = chat.getTime().substring(0, 5);
+        } else if(chat.getTime().indexOf(":") == 1) {
+            time = chat.getTime().substring(0, 4);
+        }
         chat.setTime(time + " " + marker);
         switch (holder.getItemViewType()) {
             case TYPE_CHAT_LEFT:

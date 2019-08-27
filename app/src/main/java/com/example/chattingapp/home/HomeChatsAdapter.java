@@ -46,7 +46,12 @@ public class HomeChatsAdapter extends RecyclerView.Adapter<HomeChatsAdapter.MyVi
     public void onBindViewHolder(@NonNull HomeChatsAdapter.MyViewHolder holder, int position) {
         final Chat chat = chatList.get(position);
         String marker = chat.getTime().substring(chat.getTime().length()-2);
-        String time = chat.getTime().substring(0, 5);
+        String time = "";
+        if(chat.getTime().indexOf(":") == 2) {
+            time = chat.getTime().substring(0, 5);
+        } else if(chat.getTime().indexOf(":") == 1) {
+            time = chat.getTime().substring(0, 4);
+        }
         chat.setTime(time + " " + marker);
         holder.itemBinding.setViewModel(chat);
         holder.itemBinding.setDate(chat);
